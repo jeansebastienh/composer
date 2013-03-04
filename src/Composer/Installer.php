@@ -98,6 +98,7 @@ class Installer
     protected $optimizeAutoloader = false;
     protected $devMode = false;
     protected $dryRun = false;
+    protected $noInstall = false;
     protected $verbose = false;
     protected $update = false;
     protected $runScripts = true;
@@ -972,6 +973,19 @@ class Installer
     public function disableCustomInstallers()
     {
         $this->installationManager->disableCustomInstallers();
+
+        return $this;
+    }
+
+    /**
+     * Whether to run in no install mode or not
+     *
+     * @param  boolean   $dryRun
+     * @return Installer
+     */
+    public function setNoInstall($noInstall = true)
+    {
+        $this->noInstall = (boolean) $noInstall;
 
         return $this;
     }
