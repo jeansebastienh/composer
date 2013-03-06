@@ -299,4 +299,41 @@ class InstallerTest extends TestCase
 
         return $tests;
     }
+
+    /**
+     *
+     * @return \Composer\Installer
+     */
+    protected function getMockedInstaller()
+    {
+        $io = $this->getMock('Composer\IO\IOInterface');
+        $rootPackage = $this->getMock('Composer\Package\RootPackageInterface');
+
+        $downloadManager = $this->getMock('Composer\Downloader\DownloadManager');
+        $config = $this->getMock('Composer\Config');
+
+        $repositoryManager = new RepositoryManager($io, $config);
+
+        $locker = $this->getMockBuilder('Composer\Package\Locker')->disableOriginalConstructor()->getMock();
+        $installationManager = new InstallationManagerMock();
+
+        $eventDispatcher = $this->getMockBuilder('Composer\Script\EventDispatcher')->disableOriginalConstructor()->getMock();
+        $autoloadGenerator = $this->getMockBuilder('Composer\Autoload\AutoloadGenerator')->disableOriginalConstructor()->getMock();
+
+        $installer = new Installer($io, $config, $rootPackage, $downloadManager, $repositoryManager, $locker, $installationManager, $eventDispatcher, $autoloadGenerator);
+
+        return $installer;
+    }
+
+    public function testDoesSymLinksModeEnabledWithoutSearchPathReturnFalse()
+    {
+        $this->assertFalse($this->getMockedInstaller()->doesSymLinksModeEnabled());
+    }
+
+    public function testDoesSymLinksModeEnabledWithSearchPathReturnTrue()
+    {
+        $installer = $this->getMockedInstaller();
+        $installer->setSymLinksSearchPaths(array(__DIR__));
+        $this->assertTrue($installer->doesSymLinksModeEnabled());
+    }
 }

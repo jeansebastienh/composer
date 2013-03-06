@@ -106,6 +106,11 @@ class Installer
     /**
      * @var array
      */
+    protected $symLinksSearchPaths = array();
+
+    /**
+     * @var array
+     */
     protected $suggestedPackages;
 
     /**
@@ -977,5 +982,27 @@ class Installer
         $this->installationManager->disableCustomInstallers();
 
         return $this;
+    }
+
+    /**
+     * Set search path for symlinks
+     *
+     * @param  array   $symLinksSearchPaths
+     * @return Installer
+     */
+    public function setSymLinksSearchPaths(array $symLinksSearchPaths = array())
+    {
+        $this->symLinksSearchPaths = $symLinksSearchPaths;
+
+        return $this;
+    }
+
+    /**
+     * Does the symlinks mode is enabled.
+     * @return boolean
+     */
+    public function doesSymLinksModeEnabled()
+    {
+        return count($this->symLinksSearchPaths) > 0;
     }
 }
