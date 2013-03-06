@@ -33,6 +33,7 @@ class InstallCommand extends Command
                 new InputOption('prefer-source', null, InputOption::VALUE_NONE, 'Forces installation from package sources when possible, including VCS information.'),
                 new InputOption('prefer-dist', null, InputOption::VALUE_NONE, 'Forces installation from package dist even for dev versions.'),
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Outputs the operations but will not execute anything (implicitly enables --verbose).'),
+                new InputOption('symlinks', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Try to links dependencies with package present in the path.'),
                 new InputOption('dev', null, InputOption::VALUE_NONE, 'Enables installation of require-dev packages.'),
                 new InputOption('no-dev', null, InputOption::VALUE_NONE, 'Disables installation of require-dev packages (enabled by default, only present for sanity).'),
                 new InputOption('no-custom-installers', null, InputOption::VALUE_NONE, 'Disables all custom installers.'),
@@ -82,6 +83,7 @@ EOT
 
         $install
             ->setDryRun($input->getOption('dry-run'))
+            ->setSymLinksSearchPaths($input->getOption('symlinks'))
             ->setVerbose($input->getOption('verbose'))
             ->setPreferSource($preferSource)
             ->setPreferDist($preferDist)
